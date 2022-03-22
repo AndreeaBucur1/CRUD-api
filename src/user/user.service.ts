@@ -27,8 +27,8 @@ export class UserService {
 		return user;
 	}
 
-	public update(id: number, user: User): User {
-		const userToEdit: User = this.findById(id);
+	public update(user: User): User {
+		const userToEdit: User = this.findById(user.id);
 		userToEdit.firstName = user.firstName;
 		userToEdit.lastName = user.lastName;
 		userToEdit.email = user.email;

@@ -11,9 +11,9 @@ export class UserController {
 		return this.userService.create(user);
 	}
 
-	@Put(':id')
-	public update(@Param('id') id: string, @Body() user: User): User {
-		return this.userService.update(parseInt(id), user);
+	@Put()
+	public update(@Body() user: User): User {
+		return this.userService.update(user);
 	}
 
 	@Get()
