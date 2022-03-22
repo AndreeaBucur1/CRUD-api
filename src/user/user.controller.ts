@@ -33,8 +33,6 @@ export class UserController {
 
 	@Delete('/delete-selected')
 	public deleteSelected(@Body() ids: any) {
-		console.log(ids);
-		
 		return this.userService.deleteUsers(ids);
 	}
 

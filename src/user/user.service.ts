@@ -27,7 +27,7 @@ export class UserService {
 		return user;
 	}
 
-	update(id: number, user: User): User {
+	public update(id: number, user: User): User {
 		const userToEdit: User = this.findById(id);
 		userToEdit.firstName = user.firstName;
 		userToEdit.lastName = user.lastName;
@@ -40,33 +40,30 @@ export class UserService {
 		return this.users;
 	}
 
-	findById(id: number): User {
+	public findById(id: number): User {
 		return this.users.find(
 			(user: User) => user.id === id
 		);
 	}
 
-	deleteById(id: number): void {
+	public deleteById(id: number): void {
 		const user: User | undefined = this.findById(id);
 		if (user) {
 			this.users.splice(this.users.indexOf(user), 1);
 		}
 	}
 
-	deleteUsers(ids: number[]): void {
+	public deleteUsers(ids: number[]): void {
 		for(let id of ids) {
 			this.deleteById(id);
 		}
 	}
 
-
-
-	isEmailTaken(formEmail: string, currentEmail?:string) : boolean {
-		if(formEmail == currentEmail) {
+	public isEmailTaken(formEmail: string, currentEmail?:string) : boolean {
+		if(formEmail === currentEmail) {
 			return false;
 		}
 		return this.users.some((user: User) => user.email === formEmail);
 	}
-
 
 }
