@@ -27,12 +27,11 @@ export class UserService {
 		return user;
 	}
 
-	public update(user: User): User {
-		const userToEdit: User = this.findById(user.id);
-		userToEdit.firstName = user.firstName;
-		userToEdit.lastName = user.lastName;
-		userToEdit.email = user.email;
-		userToEdit.username = user.email.split('@')[0];
+	public update(id: number, user: User): User {
+		const userToEdit: User = this.findById(id);
+		for(const key in user){
+			userToEdit[key] = user[key];
+		}
 		return userToEdit;
 	}
 

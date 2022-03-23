@@ -11,9 +11,9 @@ export class UserController {
 		return this.userService.create(user);
 	}
 
-	@Put()
-	public update(@Body() user: User): User {
-		return this.userService.update(user);
+	@Put(':id')
+	public update(@Param('id') id: string, @Body() user: User): User {
+		return this.userService.update(parseInt(id), user);
 	}
 
 	@Get()
@@ -33,6 +33,7 @@ export class UserController {
 
 	@Delete('/delete-selected')
 	public deleteSelected(@Body() ids: any) {
+
 		return this.userService.deleteUsers(ids);
 	}
 
