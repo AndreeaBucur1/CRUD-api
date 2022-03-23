@@ -34,13 +34,12 @@ export class UserController {
 
 	@Delete('/delete-selected')
 	public deleteSelected(@Body() ids: any) {
-
 		return this.userService.deleteUsers(ids);
 	}
 
-	@Post('/is-email-taken')
-	public isEmailTaken(@Body() emails: {formEmail: string, currentEmail?: string}): Promise<boolean> {
-		return this.userService.isEmailTaken(emails.formEmail, emails.currentEmail);
+	@Post('/check-email-availability')
+	public checkEmailAvailability(@Body() emails: {formEmail: string, currentEmail?: string}): Promise<boolean> {
+		return this.userService.checkEmailAvailability(emails.formEmail, emails.currentEmail);
 	}
 
 }

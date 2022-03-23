@@ -44,7 +44,7 @@ export class UserService {
 		}
 	}
 
-	public async isEmailTaken(formEmail: string, currentEmail?:string) : Promise<boolean> {
+	public async checkEmailAvailability(formEmail: string, currentEmail?:string) : Promise<boolean> {
 		if(formEmail === currentEmail) {
 			return false;
 		}
