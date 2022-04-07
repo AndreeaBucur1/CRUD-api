@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { User } from './user';
 import { UserService } from './user.service';
@@ -38,8 +39,8 @@ export class UserController {
 	}
 
 	@Post('/check-email-availability')
-	public checkEmailAvailability(@Body() emails: {formEmail: string, currentEmail?: string}): boolean {
-		return this.userService.checkEmailAvailability(emails.formEmail, emails.currentEmail);
+	public isEmailTaken(@Body() emails: {formEmail: string, currentEmail?: string}): boolean {
+		return this.userService.isEmailTaken(emails.formEmail, emails.currentEmail);
 	}
 
 }
