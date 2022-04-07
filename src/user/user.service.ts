@@ -1,41 +1,43 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { UserEntity } from './user.entity';
+import { User } from './user';
 
 @Injectable()
 export class UserService {
+	private userList: User[] = [];
 
-	constructor(
-		@InjectRepository(UserEntity)
-		private userRepository: Repository<UserEntity>
-	){}
-
-	public create(user: UserEntity): Promise<UserEntity> {
-		return this.userRepository.save(user);
+	public create(user: User): User {
+		this.userList.push(user);
+		return user;
 	}
 
-	public async update(id: number, user: UserEntity): Promise<UserEntity> {
-		const userToEdit: UserEntity = await this.findById(id);
-		for(const key in user){
-			userToEdit[key] = user[key];
+	public update(id: number, user: User): User {
+		const indexUser = this.findIndexById(id);
+		if (indexUser > -1){
+			this.userList[indexUser] = user;
 		}
-		return this.userRepository.save(userToEdit);
+		return user;
+		
 	}
 
-	public findAll(): Promise<UserEntity[]> {
-		return this.userRepository.find();
+	public getUserById(id: number): User{
+		return this.userList.find((user) => {user.id === id});
 	}
 
-	public findById(id: number): Promise<UserEntity> {
-		return this.userRepository.findOne(id);
+	public findAll(): User[] {
+		return this.userList;
 	}
 
-	public async deleteById(id: number): Promise<void> {
-		const user: UserEntity | undefined = await this.findById(id);
-		if (user) {
-			this.userRepository.delete(id);
+	public findIndexById(id: number):number {
+		for (let i  = 0; i < this.userList.length; i ++){
+			if (this.userList[i].id === id){
+				return i;
+			}
 		}
+		return -1;
+	}
+
+	public deleteById(id: number): void {
+		this.userList = this.userList.filter((user) => user.id !== id);
 	}
 
 	public deleteUsers(ids: number[]): void {
@@ -44,16 +46,11 @@ export class UserService {
 		}
 	}
 
-	public async checkEmailAvailability(formEmail: string, currentEmail?:string) : Promise<boolean> {
+	public checkEmailAvailability(formEmail: string, currentEmail?:string) : boolean {
 		if(formEmail === currentEmail) {
 			return false;
 		}
-		const user = await this.userRepository.findOne({
-			where: {
-				email: formEmail
-			}
-		})		
-		return user !== undefined;
+		return this.userList.some((user) => user.email === formEmail);
 	}
 
 }

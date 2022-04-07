@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { UserEntity } from './user.entity';
+import { User } from './user';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -8,27 +8,27 @@ export class UserController {
 	constructor(private readonly userService: UserService) { }
 
 	@Post()
-	public create(@Body() user: UserEntity): Promise<UserEntity> {
+	public create(@Body() user: User): User {
 		return this.userService.create(user);
 	}
 
 	@Put(':id')
-	public update(@Param('id') id: string, @Body() user: UserEntity): Promise<UserEntity>  {
+	public update(@Param('id') id: string, @Body() user: User): User  {
 		return this.userService.update(parseInt(id), user);
 	}
 
 	@Get()
-	public findAll(): Promise<UserEntity[]>{
+	public findAll(): User[]{
 		return this.userService.findAll();
 	}
 
 	@Get(':id')
-	public findById(@Param('id') id: string): Promise<UserEntity>  {
-		return this.userService.findById(parseInt(id));
+	public getUserById(@Param('id') id: string): User  {
+		return this.userService.getUserById(parseInt(id));
 	}
 
 	@Delete(':id')
-	public deleteById(@Param('id') id: string): Promise<void>{
+	public deleteById(@Param('id') id: string): void{
 		return this.userService.deleteById(parseInt(id));
 	}
 
@@ -38,7 +38,7 @@ export class UserController {
 	}
 
 	@Post('/check-email-availability')
-	public checkEmailAvailability(@Body() emails: {formEmail: string, currentEmail?: string}): Promise<boolean> {
+	public checkEmailAvailability(@Body() emails: {formEmail: string, currentEmail?: string}): boolean {
 		return this.userService.checkEmailAvailability(emails.formEmail, emails.currentEmail);
 	}
 
