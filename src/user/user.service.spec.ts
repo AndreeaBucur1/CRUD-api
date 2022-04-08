@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { shareReplay } from 'rxjs';
 import { User } from './user';
 import { UserService } from './user.service';
 
@@ -47,5 +48,22 @@ describe('UserService', () => {
      expect(service.isEmailTaken).toHaveBeenCalledWith(user.email);
      expect(service.create(user)).rejects.toThrow();
     })
+  });
+
+  describe('deleteById',() => {
+    it('should be deleted.', () => {
+      const userList= [new User(), new User()];
+      userList[0].id = 0;
+      userList[1].id = 1;
+
+      service['userList'] = [...userList];
+      service.deleteById(0);
+
+      expect.assertions(1);
+      expect(service.findAll())
+        .toEqual(
+          userList.filter(user => user.id !== 0)
+        );
+    });
   });
 });
