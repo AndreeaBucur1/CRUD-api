@@ -51,17 +51,15 @@ describe('UserService', () => {
 
   describe('deleteById',() => {
     it('should be deleted.', () => {
-      const userList= [new User(), new User()];
-      userList[0].id = 0;
-      userList[1].id = 1;
+      const userList: User[] = [{id: 1} as User, {id: 2} as User];
 
       service['userList'] = [...userList];
-      service.deleteById(0);
+      service.deleteById(1);
 
       expect.assertions(1);
       expect(service.findAll())
         .toEqual(
-          userList.filter(user => user.id !== 0)
+          userList.filter(user => user.id !== 1)
         );
     });
   });
