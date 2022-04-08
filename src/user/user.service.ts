@@ -21,8 +21,9 @@ export class UserService {
 		const indexUser = this.findIndexById(id);
 		if (indexUser > -1) {
 		  this.userList[indexUser] = user;
+      return user;
 		}
-		return user;
+		return undefined;
   }
 
   public getUserById(id: number): User {

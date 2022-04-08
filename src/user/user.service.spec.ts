@@ -22,7 +22,7 @@ describe('UserService', () => {
 
 
   describe('create',() => {
-    it('should be created without error.', () => {
+    it('should be created.', () => {
       const user = new User();
       user.email = 'email';
 
@@ -35,7 +35,7 @@ describe('UserService', () => {
      expect(service.isEmailTaken).toHaveBeenCalledWith(user.email);
     });
 
-    it('should throw exception.', () => {
+    it('should return undefined.', () => {
       const user = new User();
       user.email = 'email';
 
@@ -47,6 +47,60 @@ describe('UserService', () => {
      expect(service.create(user)).toEqual(undefined);
      expect(service.isEmailTaken).toHaveBeenCalledWith(user.email);
     })
+  });
+
+  describe('update',() => {
+    it('should be updated.', () => {
+      const user = new User();
+      user.email = 'email';
+      service['userList'] = [new User()]
+
+      jest
+      .spyOn(service,'isEmailTaken')
+      .mockReturnValue(false);
+
+      jest
+      .spyOn(service,'findIndexById')
+      .mockReturnValue(0);
+
+     expect.assertions(3);
+     expect(service.update(0,user)).toEqual(user);
+     expect(service.findIndexById).toHaveBeenCalledWith(0);
+     expect(service.isEmailTaken).toHaveBeenCalledWith(user.email);
+    });
+
+    it('should return undefined because id is not found.', () => {
+      const user = new User();
+      user.email = 'email';
+      service['userList'] = []
+
+      jest
+      .spyOn(service,'isEmailTaken')
+      .mockReturnValue(false);
+
+      jest
+      .spyOn(service,'findIndexById')
+      .mockReturnValue(-1);
+
+     expect.assertions(3);
+     expect(service.update(0,user)).toEqual(undefined);
+     expect(service.findIndexById).toHaveBeenCalledWith(0);
+     expect(service.isEmailTaken).toHaveBeenCalledWith(user.email);
+    });
+
+    it('should return undefined because email is taken.', () => {
+      const user = new User();
+      user.email = 'email';
+      service['userList'] = [new User()]
+
+      jest
+      .spyOn(service,'isEmailTaken')
+      .mockReturnValue(true);
+
+     expect.assertions(2);
+     expect(service.update(0,user)).toEqual(undefined);
+     expect(service.isEmailTaken).toHaveBeenCalledWith(user.email);
+    });
   });
 
   describe('deleteById',() => {
