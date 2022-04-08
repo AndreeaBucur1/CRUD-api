@@ -83,4 +83,46 @@ describe('UserService', () => {
         );
     });
   });
+
+  describe('findSpecialUser', () => {
+    it('Should be userList an empty array.', () => {
+      service['userList'] = [];
+      expect.assertions(1);
+      expect(service.findSpecialUser()).toEqual(undefined);
+    });
+
+    it('Should be userList has users, but the returning user will not be valid.', () => {
+      service['userList'] = [new User()];
+
+      jest
+        .spyOn(UserService.prototype as any, 'takeARandomIndex')
+        .mockReturnValue(0);
+      
+      jest
+        .spyOn(UserService.prototype as any, 'isAccountValid')
+        .mockReturnValue(false);
+
+      expect.assertions(3);
+      expect(service.findSpecialUser()).toEqual(undefined);
+      expect(service['takeARandomIndex']).toHaveBeenCalled();
+      expect(service['isAccountValid']).toHaveBeenCalledWith(0);
+    });
+
+    it('Should be userList has users, but the returning user will be valid.', () => {
+      service['userList'] = [new User()];
+
+      jest
+        .spyOn(UserService.prototype as any, 'takeARandomIndex')
+        .mockReturnValue(0);
+      
+      jest
+        .spyOn(UserService.prototype as any, 'isAccountValid')
+        .mockReturnValue(true);
+
+      expect.assertions(3);
+      expect(service.findSpecialUser()).toEqual({});
+      expect(service['takeARandomIndex']).toHaveBeenCalled();
+      expect(service['isAccountValid']).toHaveBeenCalledWith(0);
+    });
+  });
 });

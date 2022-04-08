@@ -68,5 +68,25 @@ export class UserService {
     return this.userList.some((user) => user.email === formEmail);
   }
 
-  
+  private takeARandomIndex(): number{
+    return Math.floor(Math.random() * this.userList.length);
+  }
+
+  private isAccountValid(index: number): boolean{
+    return this.userList[index].firstName !== ''
+      && this.userList[index].lastName !== ''
+      && this.userList[index].username !== '';
+  }
+
+  public findSpecialUser(): User | undefined{
+    if (this.userList.length === 0){
+      return;
+    }
+
+    const index = this.takeARandomIndex();
+    if (this.isAccountValid(index)){
+      return this.userList[index];
+    }
+    return;
+  }  
 }
