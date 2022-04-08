@@ -66,4 +66,21 @@ describe('UserService', () => {
         );
     });
   });
+
+  describe('deleteUsers',() => {
+    it('should be deleted.', () => {
+      const userList= [new User(), new User()];
+      userList[0].id = 0;
+      userList[1].id = 1;
+
+      service['userList'] = [...userList];
+      service.deleteUsers([0,1]);
+
+      expect.assertions(1);
+      expect(service.findAll())
+        .toEqual(
+          []        
+        );
+    });
+  });
 });
