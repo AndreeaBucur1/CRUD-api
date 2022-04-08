@@ -1,7 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { HttpException, HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { shareReplay } from 'rxjs';
 import { User } from './user';
 import { UserService } from './user.service';
 
