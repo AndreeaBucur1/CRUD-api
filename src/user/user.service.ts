@@ -6,27 +6,23 @@ import { User } from './user';
 export class UserService {
   private userList: User[] = [];
 
-  public create(user: User): User {
+  public create(user: User): User | undefined {
 	if (this.isEmailTaken(user.email)) {
-		throw new Error('Email already exists.');
+		return undefined;
 	}
 	this.userList.push(user);
 	return user;
   }
 
-  public update(id: number, user: User): User {
-	try {
+  public update(id: number, user: User): User | undefined {
 		if (this.isEmailTaken(user.email)) {
-		  throw new HttpException('Email already used', HttpStatus.CONFLICT);
+      return undefined;
 		}
 		const indexUser = this.findIndexById(id);
 		if (indexUser > -1) {
-		this.userList[indexUser] = user;
+		  this.userList[indexUser] = user;
 		}
 		return user;
-	  } catch (error) {
-		throw (error.message, error.status);
-	  }
   }
 
   public getUserById(id: number): User {

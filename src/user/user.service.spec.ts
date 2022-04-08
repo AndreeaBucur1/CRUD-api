@@ -38,15 +38,14 @@ describe('UserService', () => {
     it('should throw exception.', () => {
       const user = new User();
       user.email = 'email';
-      const error = new Error('Email already exists.');
 
       jest
       .spyOn(service,'isEmailTaken')
       .mockReturnValue(true);
 
      expect.assertions(2);
+     expect(service.create(user)).toEqual(undefined);
      expect(service.isEmailTaken).toHaveBeenCalledWith(user.email);
-     expect(service.create(user)).rejects.toThrow();
     })
   });
 

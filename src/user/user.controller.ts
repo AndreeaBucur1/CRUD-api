@@ -9,12 +9,12 @@ export class UserController {
 	constructor(private readonly userService: UserService) { }
 
 	@Post()
-	public create(@Body() user: User): User {
+	public create(@Body() user: User): User | undefined {
 		return this.userService.create(user);
 	}
 
 	@Put(':id')
-	public update(@Param('id') id: string, @Body() user: User): User  {
+	public update(@Param('id') id: string, @Body() user: User): User | undefined  {
 		return this.userService.update(parseInt(id), user);
 	}
 
@@ -24,7 +24,7 @@ export class UserController {
 	}
 
 	@Get(':id')
-	public getUserById(@Param('id') id: string): User  {
+	public getUserById(@Param('id') id: string): User | undefined{
 		return this.userService.getUserById(parseInt(id));
 	}
 
