@@ -85,7 +85,7 @@ describe('UserService', () => {
       expect(service.isEmailTaken).toHaveBeenCalledWith(user.email);
     });
 
-    it('should return undefined because id is not found.', () => {
+    it('should throw error because id is not found.', () => {
       const user = new User();
       user.email = 'email';
       service['userList'] = []
@@ -114,7 +114,9 @@ describe('UserService', () => {
         .mockReturnValue(true);
 
       expect.assertions(2);
-      expect(service.update(0, user)).toEqual(undefined);
+      expect(
+        () => service.create(user)
+      ).toThrow('Email is already taken')
       expect(service.isEmailTaken).toHaveBeenCalledWith(user.email);
     });
   });
